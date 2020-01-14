@@ -1,0 +1,55 @@
+mixin tableHeader(data)
+  tr(class='user-table-tr')
+    each item in data
+      if item.sorter 
+        th(class='user-table-td')
+         span= item.title 
+         div(class='user-table-icon')
+            img(src='/images/sort-up.png' class='sortUpIcon' onclick='clickHandle(1)' ) 
+            img(src='/images/sort-down.png' class='sortDownIcon' onclick='clickHandle(2)')
+         
+      else
+        th(class='user-table-td')= item.title
+
+mixin tableBody(columns, data) 
+  tr(class='user-table-tr')
+    each item in columns
+      td(class='user-table-td')= data[item.dataIndex]
+
+mixin table(columns, datas)
+  table(class='user-table')
+    +tableHeader(columns)
+    each item in datas
+      +tableBody(columns, item)
+
+
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/user.css')
+    
+      
+  body
+    div.users
+      div.user-list(class='user-list')
+        +table([{
+                title: '姓名',
+                dataIndex: 'name',
+                sorter: true
+              }, {
+                title: '年龄',
+                dataIndex: 'age',
+              }], [{
+                name:'aaaa', 
+                age: 12
+              }, {
+                name: 'bbbb'
+              }, {
+                name: 'cccc'
+              }, {
+                name: 'dddd',
+                age: 18
+              }])
+block javascript
+  script(src='/javascripts/index.js')
